@@ -1,0 +1,24 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Computer Modern Sans'; }
+h1 { margin: 0px auto; font-family: 'Computer Modern Serif';}
+h2 { font-family: 'Computer Modern Serif';}
+hr {border-top: 1px solid #666;}
+body { font: 18px Helvetica, Arial; background: #ddd; padding: 20px;}
+#container {width: 100%; max-width: 800px; margin: 50px auto; top: 10%;}
+.inline {display: inline;}
+ol,li {margin: 0; padding: 0;}
+ol, table {counter-reset: foo; display: table;}
+ol li, td.count {list-style: none; counter-increment: foo 1; display: table-row;}
+ol li::before, td.count::before {
+		content: counter(foo) ".";
+		display: table-cell;
+		text-align: right;
+		padding-right: .3em;
+}
+ul {display: table;}
+ul li {list-style: none; display: table-row;}
+ul li::before {
+		content: "•";
+		display: table-cell;
+		text-align: right;
+		padding-right: .7em;
+}

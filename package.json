@@ -1,0 +1,24 @@
+{
+  "name": "tbarron.xyz",
+  "version": "0.0.0",
+  "description": "Personal website.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test"
+  },
+  "author": "Thomas Barron",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "aws-sdk": "^2.162.0",
+    "express": "~4.13.3",
+    "minimist": "^1.2.0",
+    "mongoose": "~4.3.1",
+    "mustache": "~2.2.1",
+    "mustache-express": "~1.2.2",
+    "redis": "~2.6.2",
+    "rewire": "^2.5.2",
+    "ws": "^1.1.1"
+  },
+  "devDependencies": {
+  }
+}
