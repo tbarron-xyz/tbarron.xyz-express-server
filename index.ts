@@ -6,7 +6,7 @@ import GreenlockExpress from 'greenlock-express';
 
 const app = express();
 const httpserver = http.createServer(app);
-const argv = minimist(process.argv.slice(4));
+const argv = minimist(process.argv);
 
 // const https = require('https');
 // const fs = require('fs');
