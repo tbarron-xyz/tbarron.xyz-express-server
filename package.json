@@ -4,7 +4,8 @@
   "description": "Personal website.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test"
+    "test": "mocha test",
+    "build": "tsc"
   },
   "author": "Thomas Barron",
   "license": "BSD-2-Clause",
