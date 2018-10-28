@@ -6,7 +6,7 @@ import GreenlockExpress from 'greenlock-express';
 
 const app = express();
 const httpserver = http.createServer(app);
-const argv = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(4));
 
 // const https = require('https');
 // const fs = require('fs');
@@ -69,4 +69,8 @@ const greenlockInstance = GreenlockExpress.create({
 
 });
 
-https.createServer(greenlockInstance.tlsOptions, app);
+const httpsport = argv['httpsport'] || 443;
+console.log('Starting httpsServer on port', httpsport);
+
+const httpsServer = https.createServer(greenlockInstance.tlsOptions, app);
+httpsServer.listen(httpsport);
