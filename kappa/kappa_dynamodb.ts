@@ -9,7 +9,7 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 
-const getDataForEmotePlotJsonFromDynamodb = function (callback) {
+export const getDataForEmotePlotJsonFromDynamodb = function (callback) {
     let params = {
         TableName: "emotehistory",
 		/*

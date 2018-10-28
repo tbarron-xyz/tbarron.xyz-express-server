@@ -4,8 +4,8 @@
 
 import express from 'express';
 
-import startWebsocketServer from './kappa_sockets';
-import getDataForEmotePlotJsonFromDynamodb from './kappa_dynamodb';
+import { startWebsocketServer } from './kappa_sockets';
+import { getDataForEmotePlotJsonFromDynamodb } from './kappa_dynamodb';
 import * as kappa_redis from './kappa_redis';
 const getDataForStatsJSON = kappa_redis.getDataForByEmoteJSON;
 const getDataForEmoteByChannelJSON = kappa_redis.getDataForEmoteByChannelJSON;
