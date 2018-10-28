@@ -43,7 +43,7 @@ const initSocket = function (socket) {
     });
 };
 
-const startWebsocketServer = function (httpserver) {   // broadcast to all clients every 1 second, and immediately on a new connection
+export const startWebsocketServer = function (httpserver) {   // broadcast to all clients every 1 second, and immediately on a new connection
     const wss = new WebSocketServer({ server: httpserver, path: '/kappa' });
     setInterval(function () {
         socketsBroadcast(wss.clients);

@@ -2,11 +2,11 @@
 	This just grabs the info from the Redis server, and routes it through Express.
 */
 
-const express = require('express');
+import express from 'express';
 
-const startWebsocketServer = require('./kappa_sockets').startWebsocketServer;
-const getDataForEmotePlotJsonFromDynamodb = require('./kappa_dynamodb').getDataForEmotePlotJsonFromDynamodb;
-const kappa_redis = require('./kappa_redis');
+import startWebsocketServer from './kappa_sockets';
+import getDataForEmotePlotJsonFromDynamodb from './kappa_dynamodb';
+import * as kappa_redis from './kappa_redis';
 const getDataForStatsJSON = kappa_redis.getDataForByEmoteJSON;
 const getDataForEmoteByChannelJSON = kappa_redis.getDataForEmoteByChannelJSON;
 const getDataForByEmoteJSON = kappa_redis.getDataForByEmoteJSON;
