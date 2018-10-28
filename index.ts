@@ -10,9 +10,9 @@ const argv = minimist(process.argv.slice(2));
 
 // const https = require('https');
 // const fs = require('fs');
-const mustacheExpress = require('mustache-express');
+import mustacheExpress from 'mustache-express';
 
-const twitchlog = require('./kappa/kappa');
+import * as twitchlog from './kappa/kappa';
 
 
 app.on('error', function (err) { console.log('error: ', err); });
