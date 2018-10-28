@@ -1,6 +1,9 @@
 import redis from 'redis';
 const redisclient = redis.createClient();
 
+redisclient.on('ready', function () { console.log('redis connected') });
+redisclient.on('error', function (err) { console.log('redis error:', err) });
+
 
 /*
 KEYS THIS CODE WANTS: (c=channel name)

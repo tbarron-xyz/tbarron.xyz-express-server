@@ -15,9 +15,6 @@ const getDataForJSON = kappa_redis.getDataForJSON;
 
 module.exports.init = function (httpserver) {	// called from main express file
 	startWebsocketServer(httpserver);
-
-	redisclient.on('ready', function () { console.log('redis connected') });
-	redisclient.on('error', function (err) { console.log('redis error:', err) });
 }
 
 const router = express.Router();
