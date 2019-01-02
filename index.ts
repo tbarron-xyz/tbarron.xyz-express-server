@@ -13,7 +13,7 @@ console.log(argv);
 // const fs = require('fs');
 import { IndexRouter } from './IndexRouter';
 
-app.use('/react', IndexRouter);
+app.use('/', IndexRouter);
 
 import mustacheExpress from 'mustache-express';
 
@@ -28,7 +28,7 @@ app.set('view engine', 'mustache');
 app.set('views', './views');
 app.set('json spaces', 4);
 
-app.get('/', (req, res) => res.render('index'));
+// app.get('/', (req, res) => res.render('index'));
 
 app.use('/kappa', kappa_module.router);
 app.use('/twitch-chat-monitor', kappa_module.router);

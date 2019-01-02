@@ -12,6 +12,7 @@ export default class IndexComponent extends React.PureComponent {
                     <meta name="author" content="" />
                     <link rel="icon" href="/static/favicon.ico" />
                     <title>Thomas Barron</title>
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
                     <link rel="stylesheet" href="/static/Serif/cmun-serif.css" />
                     <link rel="stylesheet" href="/static/Sans/cmun-sans.css" />
                     <link rel="stylesheet" href="/static/kappa/index.css" />
