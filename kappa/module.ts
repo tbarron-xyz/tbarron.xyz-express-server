@@ -4,7 +4,7 @@
 
 import express from 'express';
 
-import sendComponentAsStaticMarkup from '../util/SendComponentAsStaticMarkup';
+import sendComponentAsStaticMarkup from '../util/sendComponentAsStaticMarkup';
 
 export { startWebsocketServer } from './kappa_sockets';
 import { getDataForEmotePlotJsonFromDynamodb } from './kappa_dynamodb';
