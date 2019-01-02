@@ -9,7 +9,7 @@ AWS.config.update({
 const docClient = new AWS.DynamoDB.DocumentClient();
 
 
-export const getDataForEmotePlotJsonFromDynamodb = function (callback) {
+export const getDataForEmotePlotJsonFromDynamodb = function (callback, errCallback) {
     let params = {
         TableName: "emotehistory",
 		/*
@@ -25,7 +25,7 @@ export const getDataForEmotePlotJsonFromDynamodb = function (callback) {
 		*/
     };
 
-    docClient.scan(params, (err, result) => onScan(err, result, callback));
+    docClient.scan(params, (err, result) => onScan(err, result, callback, errCallback));
 }
 
 export const snapsTransformFromDbToJson = function (snaps, callback) {
@@ -59,9 +59,11 @@ export const snapsTransformFromDbToJson = function (snaps, callback) {
     }
 }
 
-const onScan = function (err, data, callback) {
+const onScan = function (err, data, callback, errorCallback) {
     if (err) {
         console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+        errorCallback(err);
+        return;
     } else {
         // print all the movies
         // console.log("Scan succeeded.");

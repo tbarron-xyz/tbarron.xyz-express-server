@@ -1,12 +1,10 @@
 import express from 'express';
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import IndexComponent from './components/index';
+import IndexComponent from './components/IndexComponent';
+
+import { TwitchChatStatsRouter } from './kappa/module';
+
+import sendComponentAsStaticMarkup from './util/sendComponentAsStaticMarkup';
 
 export const IndexRouter = express.Router();
-IndexRouter.get('/', (req, res) => {
-    const ssr = ReactDOMServer.renderToStaticMarkup(<IndexComponent />);
-    const responseBody = `<!DOCTYPE html>\n${ssr}`;
-    res.writeHead(200, { "Content-Type": "text/html" });
-    res.end(responseBody);
-});
+IndexRouter.get('/', sendComponentAsStaticMarkup(IndexComponent));
+IndexRouter.use('/kappa', TwitchChatStatsRouter);

@@ -4,46 +4,45 @@
 
 import express from 'express';
 
-import { startWebsocketServer } from './kappa_sockets';
+import sendComponentAsStaticMarkup from '../util/SendComponentAsStaticMarkup';
+
+export { startWebsocketServer } from './kappa_sockets';
 import { getDataForEmotePlotJsonFromDynamodb } from './kappa_dynamodb';
 import * as kappa_redis from './kappa_redis';
+import TwitchChatStatsComponent from '../components/TwitchChatStatsComponent';
 const getDataForStatsJSON = kappa_redis.getDataForByEmoteJSON;
 const getDataForEmoteByChannelJSON = kappa_redis.getDataForEmoteByChannelJSON;
 const getDataForByEmoteJSON = kappa_redis.getDataForByEmoteJSON;
 const getDataForJSON = kappa_redis.getDataForJSON;
 
 
-export const init = function (httpserver) {	// called from main express file
-	startWebsocketServer(httpserver);
-}
-
-export const router = express.Router();
+export const TwitchChatStatsRouter = express.Router();
 
 /* ROUTES */
-router.get('/', (req, res) => res.render('kappa'));
-router.get('/json', function (req, RES) {
+TwitchChatStatsRouter.get('/', sendComponentAsStaticMarkup(TwitchChatStatsComponent));
+TwitchChatStatsRouter.get('/json', function (req, RES) {
 	getDataForJSON(function (data) {
 		RES.json(data);	// need closure for some reason
-	});
+	}, err => RES.end(err.toString()));
 });
 // router.get('channeljson/:chan', sendByChannelJSON);
-router.get('/emotejson', function (req, RES) {
+TwitchChatStatsRouter.get('/emotejson', function (req, RES) {
 	getDataForByEmoteJSON(function (data) {
 		RES.json(data);
-	});
+	}, err => RES.end(err.toString()));
 });
-router.get('/emotechanneljson/:emote', function (req, RES) {
+TwitchChatStatsRouter.get('/emotechanneljson/:emote', function (req, RES) {
 	getDataForEmoteByChannelJSON(req.params.emote, function (data) {
 		RES.json(data);
-	});
+	}, err => RES.end(err.toString()));
 });
-router.get('/emoteplotjson', function (req, RES) {
+TwitchChatStatsRouter.get('/emoteplotjson', function (req, RES) {
 	getDataForEmotePlotJsonFromDynamodb(function (data) {
 		RES.json(data);
-	});
+	}, err => RES.end(err.toString()));
 });
-router.get('/stats', (req, RES) => {
+TwitchChatStatsRouter.get('/stats', (req, RES) => {
 	getDataForStatsJSON(function (data) {
 		RES.json(data);
-	});
+	}, err => RES.end(err.toString()));
 });

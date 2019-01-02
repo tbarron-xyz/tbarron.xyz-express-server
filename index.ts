@@ -17,7 +17,7 @@ app.use('/', IndexRouter);
 
 import mustacheExpress from 'mustache-express';
 
-import * as kappa_module from './kappa/module';
+import * as TwitchChatStatsModule from './kappa/module';
 
 app.on('error', function (err) { console.log('error: ', err); });
 
@@ -30,10 +30,10 @@ app.set('json spaces', 4);
 
 // app.get('/', (req, res) => res.render('index'));
 
-app.use('/kappa', kappa_module.router);
-app.use('/twitch-chat-monitor', kappa_module.router);
+app.use('/kappa', TwitchChatStatsModule.TwitchChatStatsRouter);
+app.use('/twitch-chat-monitor', TwitchChatStatsModule.TwitchChatStatsRouter);
 
-kappa_module.init(httpserver);
+TwitchChatStatsModule.startWebsocketServer(httpserver);
 
 const port = argv['port'] || 80;
 console.log('Starting httpserver on port', port);

@@ -16,16 +16,28 @@ KEYS THIS CODE WANTS: (c=channel name)
 const compare1 = (a, b) => b[1] - a[1];
 
 
-export const getDataForJSON = function (callback, redisobj = redisclient) {
+export const getDataForJSON = function (callback, errCallback = (err) => { }, redisobj = redisclient) {
     redisobj.get('channels', function (err, res) {
+        if (err) {
+            errCallback(err);
+            return;
+        }
         let channels = JSON.parse(res);
         if (channels == null) { callback(null); } else {
             redisobj.hmget('curEmoteCountByChannel:Kappa', channels, function (err, res) {
+                if (err) {
+                    errCallback(err);
+                    return;
+                }
                 let curKappas = {};
                 for (let i in channels) {
                     curKappas[channels[i]] = parseInt(res[i]);
                 }
                 redisobj.mget(channels.map(i => 'curUsers:' + i), function (err, res) {
+                    if (err) {
+                        errCallback(err);
+                        return;
+                    }
                     let curUsers = {};
                     for (let i in channels) {
                         curUsers[channels[i]] = res[i];
@@ -43,8 +55,12 @@ export const getDataForJSON = function (callback, redisobj = redisclient) {
     });
 };
 
-export const getDataForByEmoteJSON = function (callback, redisobj = redisclient) {
+export const getDataForByEmoteJSON = function (callback, errCallback = (err) => { }, redisobj = redisclient) {
     redisobj.hgetall('curEmoteCountOverall', function (err, res) { // res = {emotename: count}
+        if (err) {
+            errCallback(err);
+            return;
+        }
         if (res == null) { callback(null) } else {
             let ret = Object.keys(res).map(i => [i, parseInt(res[i])]);
             ret.sort(compare1);
@@ -53,8 +69,13 @@ export const getDataForByEmoteJSON = function (callback, redisobj = redisclient)
     });
 }
 
-export const getDataForEmoteByChannelJSON = function (emote, callback, redisobj = redisclient) {
+export const getDataForEmoteByChannelJSON = function (emote, callback, errCallback = (err) => { }, redisobj = redisclient) {
+
     redisobj.hgetall('curEmoteCountByChannel:' + emote, function (err, res) {  // res = {channel: count}
+        if (err) {
+            errCallback(err);
+            return;
+        }
         let ret = [];
         for (let i in res) {
             ret.push([i, parseInt(res[i])]);
@@ -64,8 +85,12 @@ export const getDataForEmoteByChannelJSON = function (emote, callback, redisobj 
     });
 }
 
-export const getDataForStatsJSON = function (callback, redisobj = redisclient) {
+export const getDataForStatsJSON = function (callback, errCallback = (err) => { }, redisobj = redisclient) {
     redisclient.mget(['serverStartTime', 'emotes', 'channels', 'goVersion', 'messagesLast5Minutes', 'totalMessagesSinceStart', 'etcdata'], function (err, res) {
+        if (err) {
+            errCallback(err);
+            return;
+        }
         let startTime = parseInt(res[0]) || 0;
         let emoticons = JSON.parse(res[1]) || [];
         let channels = JSON.parse(res[2]) || [];
