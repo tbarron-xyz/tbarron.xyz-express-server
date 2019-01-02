@@ -66,7 +66,7 @@ export const getDataForEmoteByChannelJSON = function (emote, callback, redisobj 
 
 export const getDataForStatsJSON = function (callback, redisobj = redisclient) {
     redisclient.mget(['serverStartTime', 'emotes', 'channels', 'goVersion', 'messagesLast5Minutes', 'totalMessagesSinceStart', 'etcdata'], function (err, res) {
-        let startTime = res[0] || 0;
+        let startTime = parseInt(res[0]) || 0;
         let emoticons = JSON.parse(res[1]) || [];
         let channels = JSON.parse(res[2]) || [];
         let go_version = res[3];
@@ -74,7 +74,7 @@ export const getDataForStatsJSON = function (callback, redisobj = redisclient) {
         let totalMessagesSinceStart = res[5];
         let etcdata = res[6];
         // let [startTime,emoticons,channels] = res;
-        ret = {
+        const ret = {
             'uptime': Date.now() - startTime,
             // 'msgsInMemory': lastFiveMinutes.length,
             // 'msgsInDb':     msgCountInDB, 

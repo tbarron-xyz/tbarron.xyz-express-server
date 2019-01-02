@@ -28,7 +28,7 @@ export const getDataForEmotePlotJsonFromDynamodb = function (callback) {
     docClient.scan(params, (err, result) => onScan(err, result, callback));
 }
 
-const snapsTransformFromDbToJson = function (snaps, callback) {
+export const snapsTransformFromDbToJson = function (snaps, callback) {
     if (snaps.length == 0) {
         callback({});
     } else {

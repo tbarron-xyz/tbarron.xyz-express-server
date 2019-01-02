@@ -13,11 +13,11 @@ const getDataForByEmoteJSON = kappa_redis.getDataForByEmoteJSON;
 const getDataForJSON = kappa_redis.getDataForJSON;
 
 
-module.exports.init = function (httpserver) {	// called from main express file
+export const init = function (httpserver) {	// called from main express file
 	startWebsocketServer(httpserver);
 }
 
-const router = express.Router();
+export const router = express.Router();
 
 /* ROUTES */
 router.get('/', (req, res) => res.render('kappa'));
@@ -47,4 +47,3 @@ router.get('/stats', (req, RES) => {
 		RES.json(data);
 	});
 });
-module.exports.router = router;

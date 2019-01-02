@@ -1,3 +1,5 @@
+import { snapsTransformFromDbToJson } from './kappa_dynamodb';
+
 const mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/kappa');
