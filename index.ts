@@ -15,17 +15,12 @@ import { IndexRouter } from './IndexRouter';
 
 app.use('/', IndexRouter);
 
-import mustacheExpress from 'mustache-express';
-
 import * as TwitchChatStatsModule from './kappa/module';
 
 app.on('error', function (err) { console.log('error: ', err); });
 
 app.use("/static", express.static('static'));
 app.use("/m", express.static('m'));
-app.engine('mustache', mustacheExpress());
-app.set('view engine', 'mustache');
-app.set('views', './views');
 app.set('json spaces', 4);
 
 // app.get('/', (req, res) => res.render('index'));
