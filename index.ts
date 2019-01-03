@@ -5,7 +5,7 @@ import https from 'https';
 import GreenlockExpress from 'greenlock-express';
 
 const app = express();
-const httpserver = http.createServer(app);
+// const httpserver = http.createServer(app);
 const argv = minimist(process.argv);
 console.log(argv);
 
@@ -27,8 +27,6 @@ app.set('json spaces', 4);
 
 app.use('/kappa', TwitchChatStatsModule.TwitchChatStatsRouter);
 app.use('/twitch-chat-monitor', TwitchChatStatsModule.TwitchChatStatsRouter);
-
-TwitchChatStatsModule.startWebsocketServer(httpserver);
 
 const port = argv['port'] || 80;
 console.log('Starting httpserver on port', port);
@@ -71,7 +69,8 @@ const greenlockInstance = GreenlockExpress.create({
 // const httpsport = argv['httpsport'] || 443;
 // console.log('Starting httpsServer on port', httpsport);
 
-greenlockInstance.listen(80, 443);
+const server = greenlockInstance.listen(80, 443);
+TwitchChatStatsModule.startWebsocketServer(server);
 
 // const httpsServer = https.createServer(greenlockInstance.tlsOptions, app);
 // httpsServer.listen(httpsport);
