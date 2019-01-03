@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha test",
-    "build": "tsc"
+    "build": "tsc",
+    "buildmove": "tsc && mv index.js ./static/kappa/index.js"
   },
   "author": "Thomas Barron",
   "license": "BSD-2-Clause",
