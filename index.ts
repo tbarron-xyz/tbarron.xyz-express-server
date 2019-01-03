@@ -37,7 +37,7 @@ TwitchChatStatsModule.startWebsocketServer(httpserver);
 
 const port = argv['port'] || 80;
 console.log('Starting httpserver on port', port);
-httpserver.listen(port);
+// httpserver.listen(port);
 
 const greenlockInstance = GreenlockExpress.create({
 
@@ -73,8 +73,10 @@ const greenlockInstance = GreenlockExpress.create({
 
 });
 
-const httpsport = argv['httpsport'] || 443;
-console.log('Starting httpsServer on port', httpsport);
+// const httpsport = argv['httpsport'] || 443;
+// console.log('Starting httpsServer on port', httpsport);
 
-const httpsServer = https.createServer(greenlockInstance.tlsOptions, app);
-httpsServer.listen(httpsport);
+greenlockInstance.listen(80, 443);
+
+// const httpsServer = https.createServer(greenlockInstance.tlsOptions, app);
+// httpsServer.listen(httpsport);
