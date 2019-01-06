@@ -9,13 +9,12 @@ const app = express();
 const argv = minimist(process.argv);
 console.log(argv);
 
-// const https = require('https');
-// const fs = require('fs');
-import { IndexRouter } from './IndexRouter';
+import { IndexRouter } from './routers/IndexRouter';
 
 app.use('/', IndexRouter);
 
-import * as TwitchChatStatsModule from './kappa/module';
+import { TwitchChatStatsRouter } from './routers/TwitchChatStatsRouter';
+import { initializeWebsocketServer } from './kappa/sockets';
 
 app.on('error', function (err) { console.log('error: ', err); });
 
@@ -25,8 +24,8 @@ app.set('json spaces', 4);
 
 // app.get('/', (req, res) => res.render('index'));
 
-app.use('/kappa', TwitchChatStatsModule.TwitchChatStatsRouter);
-app.use('/twitch-chat-monitor', TwitchChatStatsModule.TwitchChatStatsRouter);
+app.use('/kappa', TwitchChatStatsRouter);
+app.use('/twitch-chat-monitor', TwitchChatStatsRouter);
 
 const port = argv['port'] || 80;
 console.log('Starting httpserver on port', port);
@@ -70,7 +69,7 @@ const greenlockInstance = GreenlockExpress.create({
 // console.log('Starting httpsServer on port', httpsport);
 
 const server = greenlockInstance.listen(80, 443);
-TwitchChatStatsModule.startWebsocketServer(server);
+initializeWebsocketServer(server);
 
 // const httpsServer = https.createServer(greenlockInstance.tlsOptions, app);
 // httpsServer.listen(httpsport);

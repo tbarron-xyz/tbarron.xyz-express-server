@@ -6,14 +6,13 @@ import express from 'express';
 
 import sendComponentAsStaticMarkup from '../util/sendComponentAsStaticMarkup';
 
-export { startWebsocketServer } from './kappa_sockets';
-import { getDataForEmotePlotJsonFromDynamodb } from './kappa_dynamodb';
-import * as kappa_redis from './kappa_redis';
+import { getDataForEmotePlotJsonFromDynamodb } from '../kappa/DynamodbWrapper';
+import RedisWrapper from '../kappa/RedisWrapper';
 import TwitchChatStatsComponent from '../components/TwitchChatStatsComponent';
-const getDataForStatsJSON = kappa_redis.getDataForByEmoteJSON;
-const getDataForEmoteByChannelJSON = kappa_redis.getDataForEmoteByChannelJSON;
-const getDataForByEmoteJSON = kappa_redis.getDataForByEmoteJSON;
-const getDataForJSON = kappa_redis.getDataForJSON;
+const getDataForStatsJSON = RedisWrapper.getDataForStatsJSON;
+const getDataForEmoteByChannelJSON = RedisWrapper.getDataForEmoteByChannelJSON;
+const getDataForByEmoteJSON = RedisWrapper.getDataForByEmoteJSON;
+const getDataForJSON = RedisWrapper.getDataForJSON;
 
 
 export const TwitchChatStatsRouter = express.Router();
