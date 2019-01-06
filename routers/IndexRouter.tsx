@@ -8,3 +8,4 @@ import sendComponentAsStaticMarkup from '../util/sendComponentAsStaticMarkup';
 export const IndexRouter = express.Router();
 IndexRouter.get('/', sendComponentAsStaticMarkup(IndexComponent));
 IndexRouter.use('/kappa', TwitchChatStatsRouter);
+IndexRouter.use('/twitch-chat-monitor', TwitchChatStatsRouter);
