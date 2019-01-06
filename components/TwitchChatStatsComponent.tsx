@@ -26,10 +26,9 @@ export default class TwitchChatStatsComponent extends React.PureComponent<{initi
                 <script src="/static/kappa/system.config.js"></script>
             </head>
             <body>
-                {/* <div id="container">
-
-                </div> */}
-                <TwitchChatMonitorApp initialState={this.props.initialData}/>
+                <div id="container">
+                    <TwitchChatMonitorApp initialState={this.props.initialData}/>
+                </div>
             </body>
         </html>
     );

@@ -20,7 +20,7 @@ export const TwitchChatStatsRouter = express.Router();
 
 /* ROUTES */
 TwitchChatStatsRouter.get('/', sendComponentAsStringAsync(TwitchChatStatsComponent, callback => {
-	getDataForJSON(data => {
+	getDataForEmoteByChannelJSON('Kappa', data => {
 		callback(data);
 	});
 }));
