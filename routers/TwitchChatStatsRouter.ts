@@ -1,7 +1,3 @@
-/*
-	This just grabs the info from the Redis server, and routes it through Express.
-*/
-
 import express from 'express';
 
 import { sendComponentAsStringAsync } from '../util/sendComponentAsStaticMarkup';
