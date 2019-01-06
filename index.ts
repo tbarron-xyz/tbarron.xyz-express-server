@@ -59,9 +59,10 @@ const greenlockInstance = GreenlockExpress.create({
 	, communityMember: false
 
 	// Contribute telemetry data to the project
-	, telemetry: false
+	, telemetry: false,
 
-	//, debug: true
+	//, debug: true,
+	__sni_allow_domain_fronting: true
 
 });
 

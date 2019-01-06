@@ -6,7 +6,7 @@ import express from 'express';
 
 import sendComponentAsStaticMarkup from '../util/sendComponentAsStaticMarkup';
 
-import { getDataForEmotePlotJsonFromDynamodb } from '../kappa/DynamodbWrapper';
+import DynamodbWrapper from '../kappa/DynamodbWrapper';
 import RedisWrapper from '../kappa/RedisWrapper';
 import TwitchChatStatsComponent from '../components/TwitchChatStatsComponent';
 const getDataForStatsJSON = RedisWrapper.getDataForStatsJSON;
@@ -15,6 +15,7 @@ const getDataForByEmoteJSON = RedisWrapper.getDataForByEmoteJSON;
 const getDataForJSON = RedisWrapper.getDataForJSON;
 
 
+const dynamodbWrapperInstance = new DynamodbWrapper();
 export const TwitchChatStatsRouter = express.Router();
 
 /* ROUTES */
@@ -36,7 +37,7 @@ TwitchChatStatsRouter.get('/emotechanneljson/:emote', function (req, RES) {
 	}, err => RES.end(err.toString()));
 });
 TwitchChatStatsRouter.get('/emoteplotjson', function (req, RES) {
-	getDataForEmotePlotJsonFromDynamodb(function (data) {
+	dynamodbWrapperInstance.getDataForEmotePlotJsonFromDynamodb(function (data) {
 		RES.json(data);
 	}, err => RES.end(err.toString()));
 });
