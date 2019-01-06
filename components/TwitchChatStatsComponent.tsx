@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOMServer from 'React-dom/server';
 import TwitchChatMonitorApp, { State } from '../tbarron.xyz-react-frontend/components/TwitchChatMonitorApp';
 
 
