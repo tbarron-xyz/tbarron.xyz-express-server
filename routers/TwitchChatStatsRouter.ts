@@ -4,7 +4,7 @@
 
 import express from 'express';
 
-import sendComponentAsStaticMarkup from '../util/sendComponentAsStaticMarkup';
+import { sendComponentAsStringAsync } from '../util/sendComponentAsStaticMarkup';
 
 import DynamodbWrapper from '../kappa/DynamodbWrapper';
 import RedisWrapper from '../kappa/RedisWrapper';
@@ -19,7 +19,11 @@ const dynamodbWrapperInstance = new DynamodbWrapper();
 export const TwitchChatStatsRouter = express.Router();
 
 /* ROUTES */
-TwitchChatStatsRouter.get('/', sendComponentAsStaticMarkup(TwitchChatStatsComponent));
+TwitchChatStatsRouter.get('/', sendComponentAsStringAsync(TwitchChatStatsComponent, callback => {
+	getDataForJSON(data => {
+		callback(data);
+	});
+}));
 TwitchChatStatsRouter.get('/json', function (req, RES) {
 	getDataForJSON(function (data) {
 		RES.json(data);	// need closure for some reason

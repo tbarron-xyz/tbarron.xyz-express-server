@@ -1,5 +1,9 @@
 import React from 'react';
-export default class TwitchChatStatsComponent extends React.PureComponent {
+import ReactDOMServer from 'React-dom/server';
+import TwitchChatMonitorApp, { State } from '../tbarron.xyz-react-frontend/components/TwitchChatMonitorApp';
+
+
+export default class TwitchChatStatsComponent extends React.PureComponent<{initialData: State}> {
     render = () => (
         <html>
             <head>
@@ -22,9 +26,10 @@ export default class TwitchChatStatsComponent extends React.PureComponent {
                 <script src="/static/kappa/system.config.js"></script>
             </head>
             <body>
-                <div id="container">
+                {/* <div id="container">
 
-                </div>
+                </div> */}
+                <TwitchChatMonitorApp initialState={this.props.initialData}/>
             </body>
         </html>
     );

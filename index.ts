@@ -13,7 +13,6 @@ import { IndexRouter } from './routers/IndexRouter';
 
 app.use('/', IndexRouter);
 
-import { TwitchChatStatsRouter } from './routers/TwitchChatStatsRouter';
 import { initializeWebsocketServer } from './kappa/sockets';
 
 app.on('error', function (err) { console.log('error: ', err); });
@@ -23,9 +22,6 @@ app.use("/m", express.static('m'));
 app.set('json spaces', 4);
 
 // app.get('/', (req, res) => res.render('index'));
-
-app.use('/kappa', TwitchChatStatsRouter);
-app.use('/twitch-chat-monitor', TwitchChatStatsRouter);
 
 const port = argv['port'] || 80;
 console.log('Starting httpserver on port', port);
