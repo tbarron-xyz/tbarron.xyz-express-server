@@ -48,7 +48,7 @@ export default class DynamodbWrapper {
             emotes.forEach(function (e) {
                 emoteData[e] = { name: e, x: [], y: [] };
             });
-            let runningsum = emotes.map(e => 0);
+            let runningsum: { [key: string]: number } = {};
             snaps.concat().sort((snap1, snap2) => snap1.Time - snap2.Time).forEach(function (s, i) {
                 emotes.forEach(function (e) {
                     runningsum[e] += s.Data[e];
@@ -70,7 +70,7 @@ export default class DynamodbWrapper {
         }
     }
 
-    static onScan = function (err, data: AWS.DynamoDB.DocumentClient.ScanOutput, callback: (e: emoteData[]) => void, errorCallback) {
+    static onScan = function (err: AWS.AWSError, data: AWS.DynamoDB.DocumentClient.ScanOutput, callback: (e: emoteData[]) => void, errorCallback: (er: AWS.AWSError) => void) {
         if (err) {
             console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
             errorCallback(err);

@@ -13,39 +13,46 @@ KEYS THIS CODE WANTS: (c=channel name)
 'curEmoteCountByChannel:'+e (hget, keyed by channel)
 */
 
-const compare1 = (a, b) => b[1] - a[1];
+const compare1 = (a: [any, number] | [any, number, any], b: [any, number] | [any, number, any]) => b[1] - a[1];
 
 export default class RedisWrapper {
-    static getDataForJSON = function (callback, errCallback = (err) => { }, redisobj = redisclient) {
-        redisobj.get('channels', function (err, res) {
+    static getDataForJSON = (
+        callback: (data: [string, number, number][]) => void,
+        errCallback = (err: Error) => { },
+        redisobj = redisclient
+    ) => {
+        redisobj.get('channels', (err, res) => {
             if (err) {
                 errCallback(err);
                 return;
             }
-            let channels = JSON.parse(res);
+            let channels = JSON.parse(res) as string[];
             if (channels == null) { callback(null); } else {
-                redisobj.hmget('curEmoteCountByChannel:Kappa', channels, function (err, res) {
+                redisobj.hmget('curEmoteCountByChannel:Kappa', channels, (err, res) => {
                     if (err) {
                         errCallback(err);
                         return;
                     }
-                    let curKappas = {};
+                    let currentKappas: { [key: string]: number } = {};
                     for (let i in channels) {
-                        curKappas[channels[i]] = parseInt(res[i]);
+                        currentKappas[channels[i]] = parseInt(res[i]);
                     }
-                    redisobj.mget(channels.map(i => 'curUsers:' + i), function (err, res) {
+                    redisobj.mget(channels.map(i => 'curUsers:' + i), (err, res) => {
                         if (err) {
                             errCallback(err);
                             return;
                         }
-                        let curUsers = {};
+                        let curUsers: { [key: string]: number } = {};
                         for (let i in channels) {
-                            curUsers[channels[i]] = res[i];
+                            curUsers[channels[i]] = parseInt(res[i]);
                         }
-                        let ret = [];   // [channel name, curKappas, per capita]
-                        for (let i in curKappas) {
-                            ret.push([i, curKappas[i] ? curKappas[i] : 0,
-                                (curUsers[i] && curKappas[i] && curKappas[i] != '0') ? (curKappas[i] / curUsers[i] * 100) : 0]);    // '0' bool is true
+                        let ret: [string, number, number][] = [];   // [channel name, curKappas, per capita]
+                        for (let i in currentKappas) {
+                            ret.push([i,
+                                currentKappas[i] ? currentKappas[i] : 0,
+                                (curUsers[i] && currentKappas[i] && currentKappas[i] != 0) ?
+                                    (currentKappas[i] / curUsers[i] * 100) :
+                                    0]);    // '0' bool is true
                         }
                         ret.sort(compare1);
                         callback(ret);
@@ -55,21 +62,25 @@ export default class RedisWrapper {
         });
     };
 
-    static getDataForByEmoteJSON = function (callback, errCallback = (err) => { }, redisobj = redisclient) {
+    static getDataForByEmoteJSON = function (
+        callback: (data: [string, number][]) => void,
+        errCallback = (err: Error) => { },
+        redisobj = redisclient
+    ) {
         redisobj.hgetall('curEmoteCountOverall', function (err, res) { // res = {emotename: count}
             if (err) {
                 errCallback(err);
                 return;
             }
             if (res == null) { callback(null) } else {
-                let ret = Object.keys(res).map(i => [i, parseInt(res[i])]);
+                let ret = Object.keys(res).map(i => [i, parseInt(res[i])] as [string, number]);
                 ret.sort(compare1);
                 callback(ret);
             }
         });
     };
 
-    static getDataForEmoteByChannelJSON = function (emote, callback, errCallback = (err) => { }, redisobj = redisclient) {
+    static getDataForEmoteByChannelJSON = function (emote: string, callback: (data: [string, number][]) => void, errCallback = (err: Error) => { }, redisobj = redisclient) {
 
         redisobj.hgetall('curEmoteCountByChannel:' + emote, function (err, res) {  // res = {channel: count}
             if (err) {
@@ -78,14 +89,16 @@ export default class RedisWrapper {
             }
             let ret = [];
             for (let i in res) {
-                ret.push([i, parseInt(res[i])]);
+                ret.push([i, parseInt(res[i])] as [string, number]);
             }
             ret.sort(compare1);
             callback(ret.slice(0, 25));
         });
     };
-    
-    static getDataForStatsJSON = function (callback, errCallback = (err) => { }, redisobj = redisclient) {
+
+
+
+    static getDataForStatsJSON = function (callback: (data: StatsJSON) => void, errCallback = (err: Error) => { }, redisobj = redisclient) {
         redisclient.mget(['serverStartTime', 'emotes', 'channels', 'goVersion', 'messagesLast5Minutes', 'totalMessagesSinceStart', 'etcdata'], function (err, res) {
             if (err) {
                 errCallback(err);
@@ -111,8 +124,22 @@ export default class RedisWrapper {
                 'total_messages_since_start': parseInt(totalMessagesSinceStart),
                 'etcdata': etcdata,
                 //			'threadno':	argv['threadno'] || 0,
-            };
+            } as StatsJSON;
             callback(ret);
         });
     };
 }
+
+interface StatsJSON {
+    'uptime': number,
+    // 'msgsInMemory': lastFiveMinutes.length,
+    // 'msgsInDb':     msgCountInDB, 
+    'emoticons': number,
+    'channels': string[],
+    'node_version': string,
+    'go_version': string,
+    'messages_last_5_minutes': number,
+    'total_messages_since_start': number,
+    'etcdata': string,
+    //			'threadno':	argv['threadno'] || 0,
+};

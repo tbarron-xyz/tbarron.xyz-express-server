@@ -2,7 +2,7 @@ import React from 'react';
 import TwitchChatMonitorApp, { State } from '../tbarron.xyz-react-frontend/components/TwitchChatMonitorApp';
 
 
-export default class TwitchChatStatsComponent extends React.PureComponent<{initialData: State}> {
+export default class TwitchChatStatsComponent extends React.PureComponent<{initialData?: State}> {
     render = () => (
         <html>
             <head>
