@@ -26,6 +26,7 @@ export default class IndexComponent extends React.PureComponent {
                         <hr />
                         <div style={{textAlign: 'center'}}><h1><a href="/twitch-chat-monitor">twitch chat stats</a></h1></div>
                         <div style={{textAlign: 'center'}}><h1><a href="/m/Barron_resume.pdf">resume</a></h1></div>
+                        <div style={{textAlign: 'center'}}><h1><a href="https://tbarron-xyz.github.io">dev blog</a></h1></div>
                     </div>
                 </body>
             </html>
