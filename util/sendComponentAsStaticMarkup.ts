@@ -6,9 +6,7 @@ export const sendComponentAsStaticMarkup = (c: React.ComponentClass, getProps?: 
     ((req, res) => {
         const props = getProps ? getProps() : null;
         const ssr = ReactDOMServer.renderToStaticMarkup(React.createElement(c, props));
-        const responseBody = `<!DOCTYPE html>\n${ssr}`;
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end(responseBody);
+        sendHtmlElementWithDoctypeAndContentType(ssr, res);
     }) as RequestHandler;
 
 export const sendComponentAsStringAsync = (
@@ -16,7 +14,7 @@ export const sendComponentAsStringAsync = (
     getPropsAsync?: ((propsCallback: (props: React.ComponentProps<typeof c>) => void) => void)
 ) =>
     ((req, res) => {
-        const getPropsAsyncSafe = getPropsAsync ? getPropsAsync : propsCallback => propsCallback(null);
+        const getPropsAsyncSafe: typeof getPropsAsync = getPropsAsync ? getPropsAsync : (propsCallback) => propsCallback(null);
         getPropsAsyncSafe(props => {
             const ssr = ReactDOMServer.renderToStaticMarkup(React.createElement(c, props));
             sendHtmlElementWithDoctypeAndContentType(ssr, res);
