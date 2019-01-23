@@ -16,7 +16,7 @@ export const sendComponentAsStringAsync = <T1>(
     ((req, res) => {
         const getPropsAsyncSafe: typeof getPropsAsync = getPropsAsync ? getPropsAsync : (propsCallback) => propsCallback(null);
         getPropsAsyncSafe(props => {
-            const ssr = ReactDOMServer.renderToStaticMarkup(React.createElement(c, props));
+            const ssr = ReactDOMServer.renderToString(React.createElement(c, props));
             sendHtmlElementWithDoctypeAndContentType(ssr, res);
         });
     }) as RequestHandler;
