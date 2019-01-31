@@ -13,9 +13,9 @@ import { IndexRouter } from './routers/IndexRouter';
 
 app.use('/', IndexRouter);
 
-import { initializeWebsocketServer } from './kappa/sockets';
+import SocketManager from './kappa/sockets';
 
-app.on('error', function (err) { console.log('error: ', err); });
+app.on('error', err => { console.log('error: ', err); });
 
 app.use("/static", express.static('static'));
 app.use("/m", express.static('m'));
@@ -66,7 +66,7 @@ const greenlockInstance = GreenlockExpress.create({
 // console.log('Starting httpsServer on port', httpsport);
 
 const server = greenlockInstance.listen(80, 443);
-initializeWebsocketServer(server);
+const sockets = new SocketManager(server);
 
 // const httpsServer = https.createServer(greenlockInstance.tlsOptions, app);
 // httpsServer.listen(httpsport);

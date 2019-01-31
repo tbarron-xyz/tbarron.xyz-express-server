@@ -2,7 +2,7 @@ import React from 'react';
 import TwitchChatMonitorApp, { State } from '../tbarron.xyz-react-frontend/components/TwitchChatMonitorApp';
 
 
-export default class TwitchChatStatsComponent extends React.PureComponent<{initialData?: State}> {
+export default class TwitchChatStatsComponent extends React.PureComponent<React.ComponentProps<typeof TwitchChatMonitorApp>> {
     render = () => (
         <html>
             <head>
@@ -26,7 +26,7 @@ export default class TwitchChatStatsComponent extends React.PureComponent<{initi
             </head>
             <body>
                 <div id="container">
-                    <TwitchChatMonitorApp initialState={this.props.initialData}/>
+                    <TwitchChatMonitorApp initialState={this.props.initialState}/>
                 </div>
             </body>
         </html>

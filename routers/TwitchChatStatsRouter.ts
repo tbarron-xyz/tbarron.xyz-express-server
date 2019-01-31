@@ -16,33 +16,32 @@ export const TwitchChatStatsRouter = express.Router();
 
 /* ROUTES */
 TwitchChatStatsRouter.get('/', sendComponentAsStringAsync(TwitchChatStatsComponent, callback => {
-	getDataForEmoteByChannelJSON('Kappa', data => {
-		callback(data);
+	getDataForEmoteByChannelJSON('Kappa').then(data => {
+		callback({ initialState: { colsToTableData: data } });
 	});
 }));
-TwitchChatStatsRouter.get('/json', function (req, RES) {
-	getDataForJSON(function (data) {
-		RES.json(data);	// need closure for some reason
-	}, err => RES.end(err.toString()));
+TwitchChatStatsRouter.get('/json', (req, res) => {
+	getDataForJSON().then(data => {
+		res.json(data);
+	}, err => res.end(err.toString()));
 });
 // router.get('channeljson/:chan', sendByChannelJSON);
-TwitchChatStatsRouter.get('/emotejson', function (req, RES) {
-	getDataForByEmoteJSON(function (data) {
-		RES.json(data);
-	}, err => RES.end(err.toString()));
+TwitchChatStatsRouter.get('/emotejson', (req, res) => {
+	getDataForByEmoteJSON().then(data => {
+		res.json(data);
+	}, err => res.end(err.toString()));
 });
-TwitchChatStatsRouter.get('/emotechanneljson/:emote', function (req, RES) {
-	getDataForEmoteByChannelJSON(req.params.emote, function (data) {
-		RES.json(data);
-	}, err => RES.end(err.toString()));
+TwitchChatStatsRouter.get('/emotechanneljson/:emote', (req, res) => {
+	getDataForEmoteByChannelJSON(req.params.emote).then(data => {
+		res.json(data);
+	}, err => res.end(err.toString()));
 });
-TwitchChatStatsRouter.get('/emoteplotjson', function (req, RES) {
-	dynamodbWrapperInstance.getDataForEmotePlotJsonFromDynamodb(function (data) {
-		RES.json(data);
-	}, err => RES.end(err.toString()));
+TwitchChatStatsRouter.get('/emoteplotjson', (req, res) => {
+	dynamodbWrapperInstance.getDataForEmotePlotJsonFromDynamodb().then(
+		data => { res.json(data); }, err => res.end(err.toString()));
 });
-TwitchChatStatsRouter.get('/stats', (req, RES) => {
-	getDataForStatsJSON(function (data) {
-		RES.json(data);
-	}, err => RES.end(err.toString()));
+TwitchChatStatsRouter.get('/stats', (req, res) => {
+	getDataForStatsJSON().then(data => {
+		res.json(data);
+	}, err => res.end(err.toString()));
 });
