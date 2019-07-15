@@ -16,13 +16,13 @@ export default class IndexComponent extends React.PureComponent {
                     <link rel="stylesheet" href="/static/Serif/cmun-serif.css" />
                     <link rel="stylesheet" href="/static/Sans/cmun-sans.css" />
                     <link rel="stylesheet" href="/static/kappa/index.css" />
-                    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                    <script>
-                        {`(adsbygoogle = window.adsbygoogle || []).push({
-                            google_ad_client: "ca-pub-8463066863063546",
-                        enable_page_level_ads: true
-                      });`}
-                    </script>
+                    {`<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-8463066863063546",
+    enable_page_level_ads: true
+  });
+</script>`}
                 </head>
                 <body>
                     <div id="container">
