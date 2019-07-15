@@ -4,12 +4,17 @@ import { RequestHandler, Response } from 'express';
 
 export const sendComponentAsStaticMarkup = (c: React.ComponentClass, getProps?: () => React.ComponentProps<typeof c>) =>
     ((req, res) => {
-        const props = getProps ? getProps() : null;
-        const ssr = ReactDOMServer.renderToStaticMarkup(React.createElement(c, props));
+        const ssr = justStaticMarkup(c, getProps);
         const responseBody = `<!DOCTYPE html>\n${ssr}`;
         res.writeHead(200, { "Content-Type": "text/html" });
         res.end(responseBody);
     }) as RequestHandler;
+
+export const justStaticMarkup = (c: React.ComponentClass, getProps?: () => React.ComponentProps<typeof c>) => {
+    const props = getProps ? getProps() : null;
+    const ssr = ReactDOMServer.renderToStaticMarkup(React.createElement(c, props));
+    return ssr;
+}
 
 export const sendComponentAsStringAsync = (
     c: React.ComponentClass,
@@ -23,7 +28,7 @@ export const sendComponentAsStringAsync = (
         });
     }) as RequestHandler;
 
-const sendHtmlElementWithDoctypeAndContentType = (htmlElement: string, res: Response) => {
+export const sendHtmlElementWithDoctypeAndContentType = (htmlElement: string, res: Response) => {
     const responseBody = `<!DOCTYPE html>\n${htmlElement}`;
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(responseBody);
