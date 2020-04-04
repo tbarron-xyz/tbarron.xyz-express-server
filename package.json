@@ -16,7 +16,7 @@
     "@types/ws": "^6.0.1",
     "aws-sdk": "^2.162.0",
     "express": "^4.16.4",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.3",
     "mongoose": "~4.3.1",
     "mustache": "~2.2.1",
     "mustache-express": "~1.2.2",
