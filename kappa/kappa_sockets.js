@@ -50,3 +50,5 @@ const startWebsocketServer = function (httpserver) {   // broadcast to all clien
     }, 1000);	// 1 second
     wss.on('connection', initSocket);
 };
+
+module.exports.startWebsocketServer = startWebsocketServer;

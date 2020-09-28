@@ -12,6 +12,10 @@ KEYS THIS CODE WANTS: (c=channel name)
 
 const compare1 = (a, b) => b[1] - a[1];
 
+const init = () => {
+	redisclient.on('ready', function () { console.log('redis connected') });
+	redisclient.on('error', function (err) { console.log('redis error:', err) });
+}
 
 const getDataForJSON = function (callback, redisobj = redisclient) {
     redisobj.get('channels', function (err, res) {
@@ -86,4 +90,12 @@ const getDataForStatsJSON = function (callback, redisobj = redisclient) {
         };
         callback(ret);
     });
+}
+
+module.exports = {
+    getDataForByEmoteJSON,
+    getDataForEmoteByChannelJSON,
+    getDataForJSON,
+    getDataForStatsJSON,
+    init
 }

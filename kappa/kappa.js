@@ -3,6 +3,8 @@
 */
 
 const express = require('express');
+const ReactDOMServer = require('react-dom/server');
+const React = require('react');
 
 const startWebsocketServer = require('./kappa_sockets').startWebsocketServer;
 const getDataForEmotePlotJsonFromDynamodb = require('./kappa_dynamodb').getDataForEmotePlotJsonFromDynamodb;
@@ -12,12 +14,16 @@ const getDataForEmoteByChannelJSON = kappa_redis.getDataForEmoteByChannelJSON;
 const getDataForByEmoteJSON = kappa_redis.getDataForByEmoteJSON;
 const getDataForJSON = kappa_redis.getDataForJSON;
 
+class ReactApp extends React.PureComponent {
+	render() {
+		return React.createElement('div', { id: 'reactapp' });
+	}
+}
+
 
 module.exports.init = function (httpserver) {	// called from main express file
+	kappa_redis.init();
 	startWebsocketServer(httpserver);
-
-	redisclient.on('ready', function () { console.log('redis connected') });
-	redisclient.on('error', function (err) { console.log('redis error:', err) });
 }
 
 const router = express.Router();
@@ -50,4 +56,8 @@ router.get('/stats', (req, RES) => {
 		RES.json(data);
 	});
 });
+
+router.get('/react-server', (req, res) => {
+	res.end(`<html>${ReactDOMServer.renderToString(React.createElement(ReactApp))}</html>`)
+})
 module.exports.router = router;

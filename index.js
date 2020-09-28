@@ -20,12 +20,9 @@ app.set('view engine', 'mustache');
 app.set('views', './views');
 app.set('json spaces', 4);
 
-
-const sendIndex = function (req, res) {
+app.get('/', (req, res) => {
 	res.render('index', {});
-};
-
-app.get('/', sendIndex);
+});
 
 app.use('/kappa', twitchlog.router);
 app.use('/twitch-chat-monitor', twitchlog.router);
